@@ -25,7 +25,7 @@ my $dbh = DBI->connect($dsn, $user, $passwd)
 			#  || sqlerror($dbh, "", "Could not connect: $DBI::errstr\n");
 debug_print(1, "\t...connected to database \n\n") ;
 
-my $infile = $datapath . "/years.csv" ;
+my $infile = $datapath . "/months.csv" ;
 	
 open (INPUT, $infile) || die (sprintf "cannot open >%s< \n", $infile) ;
 
@@ -37,6 +37,7 @@ while(<INPUT>) {
 	  }
 
   next if /^\s*#/;             # skip comment lines
+
 
   my @fields = split ';' ;
 
@@ -50,7 +51,7 @@ while(<INPUT>) {
 
   my ($date, $inv, $psum) = @fields;
 
-  my $sql = "REPLACE INTO `years` (`Date`, `Inv`, `Psum`) VALUES ( ";
+  my $sql = "REPLACE INTO `months` (`Date`, `Inv`, `Psum`) VALUES ( ";
   $sql .= " STR_TO_DATE('" ;
   $sql .= $date; 
   $sql .= "' , '%d.%m.%y') , ";
