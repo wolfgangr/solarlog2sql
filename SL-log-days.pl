@@ -8,7 +8,7 @@
 require "./db_cred_writer.pli" ; 
 
 # debug printing level 0...3
-my $debug=3 ;
+my $debug=0 ;
 
 #========================================================
 use DBD::mysql;		# mysql database access
