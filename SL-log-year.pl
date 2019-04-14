@@ -5,26 +5,28 @@
 #
 
 # load credentials
-require "db_cred_writer.pli" ; 
+require "./db_cred_writer.pli" ; 
 
 # debug printing level 0...3
-$debug=3 ;
+my $debug=3 ;
 
 #========================================================
 use DBD::mysql;		# mysql database access
-$driver = "mysql";
+my $driver = "mysql";
 use Data::Dumper;	# for debug
 use POSIX qw(strftime);	# time string formatting
 
 
 debug_print(1, "\n$0 connecting as user <$user> to database <$database> at host <$DBHost>...\n");
-$dsn = "DBI:$driver:$database;$DBHost";
-$dbh = DBI->connect($dsn, $user, $passwd) 
+my $dsn = "DBI:$driver:$database;$DBHost";
+my $dbh = DBI->connect($dsn, $user, $passwd) 
 # 		; ###### debug - not database
 		|| die ("Could not connect to database: $DBI::errstr\n");
 			#  || sqlerror($dbh, "", "Could not connect: $DBI::errstr\n");
-	debug_print(1, "\t...connected to database \n\n") ;
+debug_print(1, "\t...connected to database \n\n") ;
 
+my $infile = $datapath . "/years.csv" ;
+	
 open (INPUT, $infile) || die (sprintf "cannot open >%s< \n", $infile) ;
 
 while(<INPUT>) {
