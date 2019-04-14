@@ -41,12 +41,17 @@ debug_print(3, sprintf("\nHeader line: %s \n", $header) );
 
 @fieldnames = split ( ";", $header);
 
-my %fieldhash;
-$fieldhash{$_}++ for (@fieldnames);
+# my %fieldhash;
+# $fieldhash{$_}++ for (@fieldnames);
 
 debug_print(3,  Data::Dumper->Dump ([\@fieldnames]) ); 
-debug_print(3,  Data::Dumper->Dump ([\%fieldhash]) );
+# debug_print(3,  Data::Dumper->Dump ([\%fieldhash]) );
 
+foreach $pos (0..$fieldnames-1) {
+  $key = $fieldnames[$pos] ;
+  debug_print(3, sprintf "key : %s , pos: %s \n", $key , $pos );
+
+}
 
 
 
