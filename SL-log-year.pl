@@ -54,9 +54,9 @@ while(<INPUT>) {
   my $sql = "INSERT INTO `years` (`Date`, `Inv`, `Psum`) VALUES ( ";
   $sql .= " STR_TO_DATE('" ;
   $sql .= $date; 
-  $sql .= "'%d.%m.%y') , ";
+  $sql .= "' , '%d.%m.%y') , ";
   $sql .= sprintf ("'%d' , ",  $inv);
-  $sql .= sprintf ("'%d' , ",  $psum);
+  $sql .= sprintf ("'%d' ",  $psum);
   $sql .= " );" ; 
 
   debug_print (2, "SQL-Statement: $sql \n");
