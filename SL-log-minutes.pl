@@ -61,7 +61,7 @@ foreach $pos (0..(scalar(@fieldnames))-1) {
     case "Date" 	{ $Datefield = $pos }
     case "Time"         { $Timefield = $pos }
     case "INV"		{ push @invlist, { number => $pos } }
-    case /(\D+)dc(\d+)/ { ; }
+    case /(\D+)dc(\d+)/ { printf "\t>%s< \t>%s< \n",$1, $2   ; }
     else 		{ $invlist[-1]{$key} = $pos   }
 
 
