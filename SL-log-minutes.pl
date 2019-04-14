@@ -33,13 +33,19 @@ open (INPUT, $infile) || die (sprintf "cannot open >%s< \n", $infile) ;
 
 # read head line and analyze data structure of plant config
 $header = <INPUT> ;
+chomp $header ;
+$header =~ s/\r//g ;   # looks like we have <cr><nl> DOS format?
 $header =~ s/^#// ;
 
 debug_print(3, sprintf("\nHeader line: %s \n", $header) ); 
 
 @fieldnames = split ( ";", $header);
 
+my %fieldhash;
+$fieldhash{$_}++ for (@fieldnames);
+
 debug_print(3,  Data::Dumper->Dump ([\@fieldnames]) ); 
+debug_print(3,  Data::Dumper->Dump ([\%fieldhash]) );
 
 
 
