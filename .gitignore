@@ -1,2 +1,3 @@
 db_cred_reader.pli
 db_cred_writer.pli
+*.swp
