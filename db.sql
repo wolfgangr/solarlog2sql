@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Erstellungszeit: 14. Apr 2019 um 19:03
+-- Erstellungszeit: 14. Apr 2019 um 19:15
 -- Server-Version: 10.1.37-MariaDB-0+deb9u1
 -- PHP-Version: 7.0.33-0+deb9u1
 
@@ -25,3 +25,14 @@ CREATE TABLE `years` (
 	  `Inv` int(3) NOT NULL,
 	  `Psum` int(10) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci COMMENT='aus years.csv';
+
+--
+-- Indizes der exportierten Tabellen
+--
+
+--
+-- Indizes für die Tabelle `years`
+--
+ALTER TABLE `years`
+  ADD PRIMARY KEY (`Date`,`Inv`);
+
