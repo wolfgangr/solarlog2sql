@@ -57,13 +57,20 @@ foreach $pos (0..(scalar(@fieldnames))-1) {
   $key = $fieldnames[$pos] ;
   debug_print(3, sprintf "key : %s , \tpos: %s \n", $key , $pos );
 
+  # /(\D+)dc(\d+)/  ; 
   switch ($key) {
     case "Date" 	{ $Datefield = $pos }
     case "Time"         { $Timefield = $pos }
     case "INV"		{ push @invlist, { number => $pos } }
-    case /(\D+)dc(\d+)/ { printf "\t>%s< \t>%s< \n",$1, $2   ; }
-    else 		{ $invlist[-1]{$key} = $pos   }
-
+    # case /(\D+)dc(\d+)/ { printf "\t>%s< \t>%s< \n",$1, $2   ; }
+    else 		{ 
+       if ( $key =~ /(\D+)(dc)(\d+)/ ) {
+         printf "\t>%s< \t>%s< \t>%s< \n",$1, $2, $3   ;
+	 $invlist[-1]{'MPP'}[$3]{ $1.$2 } = $pos ;
+       } else { 	       
+         $invlist[-1]{$key} = $pos   ;
+       }
+    }
 
   }
 
