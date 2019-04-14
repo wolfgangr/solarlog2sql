@@ -15,6 +15,7 @@ use DBD::mysql;		# mysql database access
 my $driver = "mysql";
 use Data::Dumper;	# for debug
 use POSIX qw(strftime);	# time string formatting
+use Switch;
 
 my ($filename) =  @ARGV ;
 
@@ -47,13 +48,32 @@ debug_print(3, sprintf("\nHeader line: %s \n", $header) );
 debug_print(3,  Data::Dumper->Dump ([\@fieldnames]) ); 
 # debug_print(3,  Data::Dumper->Dump ([\%fieldhash]) );
 
-foreach $pos (0..$fieldnames-1) {
+my $colums = scalar @fieldnames;
+my $Datefield;
+my $Timefield;
+my @invlist;
+
+foreach $pos (0..(scalar(@fieldnames))-1) {
   $key = $fieldnames[$pos] ;
-  debug_print(3, sprintf "key : %s , pos: %s \n", $key , $pos );
+  debug_print(3, sprintf "key : %s , \tpos: %s \n", $key , $pos );
+
+  switch ($key) {
+    case "Date" 	{ $Datefield = $pos }
+    case "Time"         { $Timefield = $pos }
+    case "INV"		{ push @invlist, { number => $pos } }
+    case /(\D+)dc(\d+)/ { ; }
+    else 		{ $invlist[-1]{$key} = $pos   }
+
+
+  }
 
 }
 
 
+
+debug_print(3,  Data::Dumper->Dump ([ $Datefield, $Timefield , $colums , \@invlist ]) );
+
+#
 
 
 # exit;
