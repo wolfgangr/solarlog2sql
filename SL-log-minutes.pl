@@ -61,9 +61,9 @@ foreach $pos (0..(scalar(@fieldnames))-1) {
   switch ($key) {
     case "Date" 	{ $Datefield = $pos }
     case "Time"         { $Timefield = $pos }
-    case "INV"		{ push @invlist, { number => $pos } }
+    case "INV"		{ push @invlist, { 'INV' => $pos } }
     # case /(\D+)dc(\d+)/ { printf "\t>%s< \t>%s< \n",$1, $2   ; }
-    else 		{ 
+    else 		{    # look for mpp data - does not work with "case" 
        if ( $key =~ /(\D+)(dc)(\d+)/ ) {
          printf "\t>%s< \t>%s< \t>%s< \n",$1, $2, $3   ;
 	 $invlist[-1]{'MPP'}[$3]{ $1.$2 } = $pos ;
