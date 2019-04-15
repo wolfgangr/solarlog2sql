@@ -16,6 +16,7 @@ my $driver = "mysql";
 use Data::Dumper;	# for debug
 use POSIX qw(strftime);	# time string formatting
 use Switch;
+# use DateTime::Format::MySQL;
 
 my ($filename) =  @ARGV ;
 
@@ -48,7 +49,7 @@ debug_print(3, sprintf("\nHeader line: %s \n", $header) );
 debug_print(3,  Data::Dumper->Dump ([\@fieldnames]) ); 
 # debug_print(3,  Data::Dumper->Dump ([\%fieldhash]) );
 
-my $colums = scalar @fieldnames;
+my $columns = scalar @fieldnames;
 my $Datefield;
 my $Timefield;
 my @invlist;
@@ -57,12 +58,10 @@ foreach $pos (0..(scalar(@fieldnames))-1) {
   $key = $fieldnames[$pos] ;
   debug_print(3, sprintf "key : %s , \tpos: %s \n", $key , $pos );
 
-  # /(\D+)dc(\d+)/  ; 
   switch ($key) {
     case "Date" 	{ $Datefield = $pos }
     case "Time"         { $Timefield = $pos }
     case "INV"		{ push @invlist, { 'INV' => $pos } }
-    # case /(\D+)dc(\d+)/ { printf "\t>%s< \t>%s< \n",$1, $2   ; }
     else 		{    # look for mpp data - does not work with "case" 
        if ( $key =~ /(\D+)(dc)(\d+)/ ) {
          printf "\t>%s< \t>%s< \t>%s< \n",$1, $2, $3   ;
@@ -76,22 +75,14 @@ foreach $pos (0..(scalar(@fieldnames))-1) {
 
 }
 
+debug_print(3,  Data::Dumper->Dump ([ $Datefield, $Timefield , $columns , \@invlist ]) );
 
-
-debug_print(3,  Data::Dumper->Dump ([ $Datefield, $Timefield , $colums , \@invlist ]) );
-
-#
-
-
-# exit;
-
-
-die "############ DEBUG EXIT ##############";
-#==================================~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~----------------
-
+# Header done, now process data lines
 
 while(<INPUT>) {
   chomp;
+  s/\r//g ; # looks like we have <cr><nl> DOS format?
+
   unless ($_) {
 	      debug_print (3, "skipping empty line\n");
 	          next;
@@ -105,12 +96,27 @@ while(<INPUT>) {
   debug_print (2, join '#', @fields) ;
   debug_print (2, "\n");
 
-  unless (scalar @fields == 4 ) {
+  unless (scalar @fields == $columns ) {
 	      debug_print (3, "skipping line with wrong field number\n");
 	          next;
 	  }
 
-  my ($date, $inv, $psum, $pmax) = @fields;
+  my $date = $fields[$Datefield] ;
+  my $time = $fields[$Timefield] ;
+  # $dt = time();
+
+  # my $datetime = DateTime::Format::MySQL->format_datetime($dt);
+  my ($d, $m, $y) = split ( /\./, $date, 3) ;
+  my $mySQLdatetime = sprintf ('20%s-%s-%s %s' ,  $y, $m, $d  , $time );
+
+
+  debug_print(3, Data::Dumper->Dump ([ $date, $time , $mySQLdatetime] ) ) ;
+
+die "############ DEBUG EXIT ##############";
+#==================================~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~----------------
+#
+
+# my ($date, $inv, $psum, $pmax) = @fields;
 
   my $sql = "REPLACE INTO `days` (`Date`, `Inv`, `Psum`, `Pmax`) VALUES ( ";
   $sql .= " STR_TO_DATE('" ;
