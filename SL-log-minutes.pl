@@ -116,9 +116,9 @@ while(<INPUT>) {
 
   foreach $inv (@invlist) {
 		  debug_print(3, Data::Dumper->Dump ( [ $inv ] ));
-		  $mpplist = $inv->{'MPP'};
-		  $nummpp = scalar(@$mpplist ) -1 ;
-		  debug_print(3, Data::Dumper->Dump ( [ $mpplist ] ));
+		  @mpplist = @{$inv->{'MPP'}};
+		  $nummpp = scalar(@mpplist ) -1 ;
+		  debug_print(3, Data::Dumper->Dump ( [ \@mpplist ] ));
 
 		  debug_print(3, sprintf("inverter no: %d, number of mppt: %d \n", $fields[$inv->{'INV'}], $nummpp )) ;
   }
