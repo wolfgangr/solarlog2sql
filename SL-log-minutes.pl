@@ -112,6 +112,17 @@ while(<INPUT>) {
 
   debug_print(3, Data::Dumper->Dump ([ $date, $time , $mySQLdatetime] ) ) ;
 
+  # can we cycle over the inverters and print theri no and number of MPP for each?
+
+  foreach $inv (@invlist) {
+		  debug_print(3, Data::Dumper->Dump ( [ $inv ] ));
+		  $mpplist = $inv->{'MPP'};
+		  $nummpp = scalar(@$mpplist ) -1 ;
+		  debug_print(3, Data::Dumper->Dump ( [ $mpplist ] ));
+
+		  debug_print(3, sprintf("inverter no: %d, number of mppt: %d \n", $fields[$inv->{'INV'}], $nummpp )) ;
+  }
+
 die "############ DEBUG EXIT ##############";
 #==================================~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~----------------
 #
