@@ -115,12 +115,22 @@ while(<INPUT>) {
   # can we cycle over the inverters and print theri no and number of MPP for each?
 
   foreach $inv (@invlist) {
-		  debug_print(3, Data::Dumper->Dump ( [ $inv ] ));
-		  @mpplist = @{$inv->{'MPP'}};
-		  $nummpp = scalar(@mpplist ) -1 ;
-		  debug_print(3, Data::Dumper->Dump ( [ \@mpplist ] ));
+    # @inflist is an array of hashes, so $inv is a POINTER to a hash
+    debug_print(3, Data::Dumper->Dump ( [ $inv ] ));
+    @mpplist = @{$inv->{'MPP'}};
+    $nummpp = scalar(@mpplist ) -1 ;
+    debug_print(3, Data::Dumper->Dump ( [ \@mpplist ] ));
+    debug_print(3, sprintf("inverter no: %d, number of mppt: %d \n", $fields[$inv->{'INV'}], $nummpp )) ;
+    # cycle over inv fields
+    foreach my $field (keys %$inv) {
+      next if $field eq 'MPP' ;
+      my $content = $inv->{$field };
+      debug_print(3, sprintf("  field %s content %d \n", $field, $content ));
+    }
 
-		  debug_print(3, sprintf("inverter no: %d, number of mppt: %d \n", $fields[$inv->{'INV'}], $nummpp )) ;
+
+    # cylce over mpps
+    # cycle over mpp fields
   }
 
 die "############ DEBUG EXIT ##############";
