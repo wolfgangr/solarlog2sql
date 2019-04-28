@@ -124,13 +124,21 @@ while(<INPUT>) {
     # cycle over inv fields
     foreach my $field (keys %$inv) {
       next if $field eq 'MPP' ;
-      my $content = $inv->{$field };
+      my $content = $fields[$inv->{$field }];
       debug_print(3, sprintf("  field %s content %d \n", $field, $content ));
     }
 
-
     # cylce over mpps
-    # cycle over mpp fields
+    foreach my $mpp (@mpplist) {
+      next unless defined ($mpp) ;
+      debug_print(3, sprintf("mpp %s \n", $mpp ));
+      # cycle over mpp fields
+      foreach my $mppfield (keys %$mpp) {
+        #next if $field eq 'MPP' ;
+        my $mppcontent = $fields[$mpp->{$mppfield }];
+        debug_print(3, sprintf("  field %s content %d \n", $mppfield, $mppcontent ));
+      }				        
+    }
   }
 
 die "############ DEBUG EXIT ##############";
