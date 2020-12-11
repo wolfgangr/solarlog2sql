@@ -9,7 +9,7 @@
 require "./db_cred_writer.pli" ; 
 
 # debug printing level 0...3
-my $debug= 3 ;
+my $debug= 0 ;
 
 die "usage: script.pl path events.js" if (scalar @ARGV != 2);
 my ($datapath, $filename) =  @ARGV ;

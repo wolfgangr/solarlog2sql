@@ -20,7 +20,9 @@ echo -e "\t...dispatching ${FULLPATH}"
 case ${FILENAME} in
 
 	events.js )
-		echo "events.js still to do"
+		echo "call event parser"
+		./SL-log-events.pl ${PATHNAME} ${FILENAME}
+		echo -e "\t\t----  completed events - ${FULLPATH} ----"
 		;;
 
 	*.js )
