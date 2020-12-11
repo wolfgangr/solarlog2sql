@@ -11,6 +11,12 @@ require "./db_cred_writer.pli" ;
 # debug printing level 0...3
 my $debug=0 ;
 
+die "usage: script.pl path min012345.csv" if (scalar @ARGV != 2);
+my ($datapath, $filename) =  @ARGV ;
+my $infile = sprintf("%s/%s", $datapath , $filename ) ;
+
+debug_print(2, sprintf ("\tprocessing file  %s\n", $infile)) ;
+
 #========================================================
 use DBD::mysql;		# mysql database access
 my $driver = "mysql";
@@ -29,8 +35,9 @@ my $dbh = DBI->connect($dsn, $user, $passwd)
 			#  || sqlerror($dbh, "", "Could not connect: $DBI::errstr\n");
 debug_print(1, "\t...connected to database \n\n") ;
 
-die "usage: script.pl filename.csv" if (scalar @ARGV != 1);
-my $infile = $datapath . "/$filename" ;
+# die "usage: script.pl filename.csv" if (scalar @ARGV != 1);
+# my $infile = $datapath . "/$filename" ;
+
 open (INPUT, $infile) || die (sprintf "cannot open >%s< \n", $infile) ;
 
 

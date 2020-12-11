@@ -24,7 +24,9 @@ case ${FILENAME} in
 		;;
 
 	min??????.csv )
-		echo "call minute parser"
+		# echo "call minute parser"
+		./SL-log-minutes.pl ${PATHNAME} ${FILENAME}
+		echo -e "\t\t----  completed minutes - ${FULLPATH} ----"
 		;;
 
 	days.csv )
