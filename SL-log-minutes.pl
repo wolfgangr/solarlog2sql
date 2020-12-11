@@ -121,12 +121,30 @@ while(<INPUT>) {
     $nummpp = scalar(@mpplist ) -1 ;
     debug_print(3, Data::Dumper->Dump ( [ \@mpplist ] ));
     debug_print(3, sprintf("inverter no: %d, number of mppt: %d \n", $fields[$inv->{'INV'}], $nummpp )) ;
+
+    # INSERT INTO person SET first_name = 'John', last_name = 'Doe';
+    
+    my $sql = "REPLACE INTO `min_INV` SET";
+    $sql .= sprintf (" `DateTime` = '%s'", $mySQLdatetime);
+    $sql .= sprintf (", `INV` = '%d'", $fields[$inv->{'INV'}] );
+  
+    
+
     # cycle over inv fields
     foreach my $field (keys %$inv) {
       next if $field eq 'MPP' ;
       my $content = $fields[$inv->{$field }];
       debug_print(3, sprintf("  field %s content %d \n", $field, $content ));
+      # $sql .= sprintf (", '%s' = '%d'", $field, $content );
     }
+
+    $sql .= ";" ; 
+    debug_print (2, "SQL-Statement: $sql \n");
+
+    # execute sql statement
+    my  $affected = $dbh->do($sql);
+    debug_print (2, "\t$affected Datasets updated\n");
+
 
     # cylce over mpps
     foreach my $mpp (@mpplist) {

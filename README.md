@@ -33,7 +33,7 @@ So, on positive experience from 2009, in 2012 it was a no-brainer to go for a la
 Sadly, it was hit by a thunderbolt and replaced by an "upgraded" Version, which in my view was a huge regression bug all over.
 Slow, cumbersome, and infelxible regarding individual views.
 They still offer the old view on their cloud service, albeit at substantial periodic rent.
-I think that's a strategy known as "ransomware".
+I think that's a strategy commonly known as "ransomware".
 
 
-
+## I want my data back!!
