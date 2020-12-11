@@ -64,9 +64,15 @@ foreach $pos (0..(scalar(@fieldnames))-1) {
     case "INV"		{ push @invlist, { 'INV' => $pos } }
     else 		{    # look for mpp data - does not work with "case" 
        if ( $key =~ /(\D+)(dc)(\d+)/ ) {
+	 # we have a MPP related field
          printf "\t>%s< \t>%s< \t>%s< \n",$1, $2, $3   ;
 	 $invlist[-1]{'MPP'}[$3]{ $1.$2 } = $pos ;
+
+	 # keep MPP number ... or is this redundant in array index?
+	 # $invlist[-1]{'MPP'}[$3]{ 'MPP' } = $3 ;
+
        } else { 	       
+	 # we have a INV related field
          $invlist[-1]{$key} = $pos   ;
        }
     }
@@ -145,19 +151,36 @@ while(<INPUT>) {
 
     # execute sql statement
     my  $affected = $dbh->do($sql);
-    debug_print (2, "\t$affected Datasets updated\n");
+    debug_print (2, "\t$affected INV-Datasets updated\n");
 
 
     # cylce over mpps
-    foreach my $mpp (@mpplist) {
+    # foreach my $mpp (@mpplist) {
+    for my $mppi (0 .. $#mpplist) {
+      $mpp = $mpplist[$mppi] ;
       next unless defined ($mpp) ;
-      debug_print(3, sprintf("mpp %s \n", $mpp ));
+      debug_print(3, sprintf("mpp No %d, content %s \n", $mppi, $mpp ));
+
+      my $sql = "REPLACE INTO `min_MPP` SET";
+      $sql .= sprintf (" `DateTime` = '%s'", $mySQLdatetime);
+      $sql .= sprintf (", `INV` = '%d'", $fields[$inv->{'INV'}] );
+      $sql .= sprintf (", `MPP` = '%d'", $mppi );
+
       # cycle over mpp fields
       foreach my $mppfield (keys %$mpp) {
         #next if $field eq 'MPP' ;
         my $mppcontent = $fields[$mpp->{$mppfield }];
         debug_print(3, sprintf("  field %s content %d \n", $mppfield, $mppcontent ));
+        $sql .= sprintf (", `%s` = '%d'", $mppfield, $mppcontent );
+
       }				        
+      $sql .= ";" ;
+      debug_print (2, "SQL-Statement: $sql \n");
+
+      # execute sql statement
+      my  $affected = $dbh->do($sql);
+      debug_print (2, "\t$affected MPP-Datasets updated\n");
+
     }
   }
 
