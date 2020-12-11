@@ -57,4 +57,5 @@ case ${FILENAME} in
 
 	* )
 		echo " do nothing with ${FULLPATH}"
+		;;
 esac
