@@ -28,21 +28,21 @@ case ${FILENAME} in
 		;;
 
 	days.csv )
-		echo "call day parser"
+		# echo "call day parser"
 		./SL-log-days.pl ${PATHNAME} ${FILENAME}
-		echo "---- dispateched day ----"
+		echo -e "\t\t----  completed days - ${FULLPATH} ----"
 		;;
 	
 	months.csv )
-		echo "call month parser"
-                ;;
+		# echo "call month parser"
+		./SL-log-months.pl ${PATHNAME} ${FILENAME}
+		echo -e "\t\t---- completed months - ${FULLPATH} ----"
+		;;
 
- 
 	years.csv )
-		echo "call year parser"
+		# echo "call year parser"
 		./SL-log-year.pl ${PATHNAME} ${FILENAME}
-                echo "---- dispateched years ----"
-
+                echo -e "\t\t---- completed years - ${FULLPATH} ----"
                 ;;
 
 	pm.csv )
