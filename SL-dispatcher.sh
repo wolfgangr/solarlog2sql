@@ -7,6 +7,10 @@
 # echo "file" $2
 # echo "path" $1
 
+# make sure to find companions
+SCRIPTDIR=`dirname "$0"`
+cd $SCRIPTDIR
+
 FILENAME=${2}
 PATHNAME=${1}
 FULLPATH=${PATHNAME}/${FILENAME}
