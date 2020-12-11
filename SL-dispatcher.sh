@@ -52,7 +52,9 @@ case ${FILENAME} in
                 ;;
 
 	pm.csv )
-		echo "pm parser still to do"
+		echo "call pm parser"
+		./SL-log-PM.pl ${PATHNAME} ${FILENAME}
+		echo -e "\t\t---- completed PM - ${FULLPATH} ----"
 		;;
 
 	* )
