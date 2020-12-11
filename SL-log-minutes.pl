@@ -1,4 +1,5 @@
-#!/usr/bin/perl -w strict
+#!/usr/bin/perl 
+##!/usr/bin/perl -w strict
 
 # write solarlog data into database
 # by Wolfgang Rosner
@@ -8,7 +9,7 @@
 require "./db_cred_writer.pli" ; 
 
 # debug printing level 0...3
-my $debug=2 ;
+my $debug=0 ;
 
 #========================================================
 use DBD::mysql;		# mysql database access
