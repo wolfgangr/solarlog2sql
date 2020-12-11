@@ -28,7 +28,7 @@ Next step now is the diligent job to cycle through the lines.
   
 I developped and tested this on a debian 10.   
 
-I made a wrapper script SL-dispatcher which I hope fits nice into the **incrontab** framework.  
+I made a wrapper script **SL-dispatcher** which I hope fits nice into the **incrontab** framework.  
 So, your cernel is watching your dir, where solarlog-backups drop in, no matter where they come from.  
 
 	:~/solarlog/scripts$ incrontab -l
@@ -45,7 +45,7 @@ So, on positive experience from 2009, in 2012 it was a no-brainer to go for a la
   
 Sadly, it was hit by a thunderbolt and replaced by an "upgraded" Version, which in my view was a huge regression bug all over.   
 Slow, cumbersome, and infelxible regarding individual views.  
-They still offer the old view on their cloud service, albeit at substantial periodic rent.  
+They still offer the old view on their cloud service, albeit at substantial periodic fee.  
 I think that's a strategy commonly known as "ransomware".  
   
   
