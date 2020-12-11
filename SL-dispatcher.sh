@@ -29,6 +29,8 @@ case ${FILENAME} in
 
 	days.csv )
 		echo "call day parser"
+		./SL-log-days.pl ${PATHNAME} ${FILENAME}
+		echo "---- dispateched day ----"
 		;;
 	
 	months.csv )
