@@ -8,7 +8,7 @@
 require "./db_cred_writer.pli" ; 
 
 # debug printing level 0...3
-my $debug=3 ;
+my $debug=2 ;
 
 #========================================================
 use DBD::mysql;		# mysql database access
@@ -65,7 +65,7 @@ foreach $pos (0..(scalar(@fieldnames))-1) {
     else 		{    # look for mpp data - does not work with "case" 
        if ( $key =~ /(\D+)(dc)(\d+)/ ) {
 	 # we have a MPP related field
-         printf "\t>%s< \t>%s< \t>%s< \n",$1, $2, $3   ;
+	 # printf "\t>%s< \t>%s< \t>%s< \n",$1, $2, $3   ;
 	 $invlist[-1]{'MPP'}[$3]{ $1.$2 } = $pos ;
 
 	 # keep MPP number ... or is this redundant in array index?
@@ -184,28 +184,14 @@ while(<INPUT>) {
     }
   }
 
-die "############ DEBUG EXIT ##############";
+# die "############ DEBUG EXIT ##############";
 #==================================~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~----------------
 #
 
-# my ($date, $inv, $psum, $pmax) = @fields;
-
-  my $sql = "REPLACE INTO `days` (`Date`, `Inv`, `Psum`, `Pmax`) VALUES ( ";
-  $sql .= " STR_TO_DATE('" ;
-  $sql .= $date; 
-  $sql .= "' , '%d.%m.%y') , ";
-  $sql .= sprintf ("'%d' , ",  $inv);
-  $sql .= sprintf ("'%d' , ",  $psum);
-  $sql .= sprintf ("'%d'",  $pmax);
-
-  $sql .= " );" ; 
-
-  debug_print (2, "SQL-Statement: $sql \n");
-
-  # execute sql statement
-  my  $affected = $dbh->do($sql);
-  debug_print (2, "\t$affected Datasets updated\n");
 }
+
+# regular end of loop over lines
+
 close (INPUT);
 $dbh->disconnect ;
 exit ;
