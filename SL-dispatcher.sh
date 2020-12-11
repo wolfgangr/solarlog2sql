@@ -40,6 +40,9 @@ case ${FILENAME} in
  
 	years.csv )
 		echo "call year parser"
+		./SL-log-year.pl ${PATHNAME} ${FILENAME}
+                echo "---- dispateched years ----"
+
                 ;;
 
 	pm.csv )

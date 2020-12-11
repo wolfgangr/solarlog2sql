@@ -1,4 +1,5 @@
-#!/usr/bin/perl -w strict
+#!/usr/bin/perl
+## #!/usr/bin/perl -w strict
 
 # write solarlog data into database
 # by Wolfgang Rosner
@@ -8,7 +9,15 @@
 require "./db_cred_writer.pli" ; 
 
 # debug printing level 0...3
-my $debug=3 ;
+my $debug=0 ;
+
+die "usage: script.pl path years.csv" if (scalar @ARGV != 2);
+my ($datapath, $filename) =  @ARGV ;
+my $infile = sprintf("%s/%s", $datapath , $filename ) ;
+
+debug_print(2, sprintf ("\tprocessing file  %s\n", $infile)) ;
+
+
 
 #========================================================
 use DBD::mysql;		# mysql database access
@@ -25,7 +34,6 @@ my $dbh = DBI->connect($dsn, $user, $passwd)
 			#  || sqlerror($dbh, "", "Could not connect: $DBI::errstr\n");
 debug_print(1, "\t...connected to database \n\n") ;
 
-my $infile = $datapath . "/years.csv" ;
 	
 open (INPUT, $infile) || die (sprintf "cannot open >%s< \n", $infile) ;
 
