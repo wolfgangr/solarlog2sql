@@ -131,10 +131,11 @@ while(<INPUT>) {
   foreach $inv (@invlist) {
     # @inflist is an array of hashes, so $inv is a POINTER to a hash
     debug_print(3, Data::Dumper->Dump ( [ $inv ] ));
-    @mpplist = @{$inv->{'MPP'}};
-    $nummpp = scalar(@mpplist ) -1 ;
+    my @mpplist = @{$inv->{'MPP'}};
+    my $nummpp = scalar(@mpplist ) -1 ;
+    my $nrINV = $fields[$inv->{'INV'}] -1 ;
     debug_print(3, Data::Dumper->Dump ( [ \@mpplist ] ));
-    debug_print(3, sprintf("inverter no: %d, number of mppt: %d \n", $fields[$inv->{'INV'}], $nummpp )) ;
+    debug_print(3, sprintf("inverter no: %d, number of mppt: %d \n", $nrINV  , $nummpp )) ;
 
     # pairwise syntax easier to handle here:
     #     INSERT INTO person SET first_name = 'John', last_name = 'Doe';
@@ -148,7 +149,12 @@ while(<INPUT>) {
     # cycle over inv fields
     foreach my $field (keys %$inv) {
       next if $field eq 'MPP' ;
-      my $content = $fields[$inv->{$field }];
+      my $content ;
+      if ( $field eq 'INV' )  {
+        $content = $nrINV ; 
+      } else {
+        $content = $fields[$inv->{$field }];
+      }
       debug_print(3, sprintf("  field %s content %d \n", $field, $content ));
       # next if $field eq 'INV' ;
       $sql .= sprintf (", `%s` = '%d'", $field, $content );
@@ -171,7 +177,7 @@ while(<INPUT>) {
 
       my $sql = "REPLACE INTO `min_MPP` SET";
       $sql .= sprintf (" `DateTime` = '%s'", $mySQLdatetime);
-      $sql .= sprintf (", `INV` = '%d'", $fields[$inv->{'INV'}] );
+      $sql .= sprintf (", `INV` = '%d'", $nrINV );
       $sql .= sprintf (", `MPP` = '%d'", $mppi );
 
       # cycle over mpp fields
