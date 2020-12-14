@@ -37,6 +37,33 @@ So, your cernel is watching your dir, where solarlog-backups drop in, no matter 
 I think other wrappers, like directory scanning, crontab an whatever might fit this as well
 
 
+## Database tuning
+
+The mariadb manual recommend Aria table engine to be preferred over the old MySQL MyIsam  
+I tried this and got a tremendous performance penalty at bulk loading.  
+Rebuilding the minute data for 2 years logging of a 10 INV / 14 MPP plant took several days  
+- whent it was a matter of two hours before.   
+
+I found that TRANSACTIONAL=0 does the trick and increases update speed by a factor of 100 ... 150 (sic!)  
+ROW_FORMAT=FIXED may or may not give some extra improvements on recent versions.  
+I enclose database definition files for both.
+You also may use 
+alter table days ENGINE=Aria TRANSACTIONAL=0 ROW_FORMAT=FIXED ;
+alter table days ENGINE=MyISAM ;
+to switch and play with table structure.  
+It works fine within a couple of seconds on 3 Mio row / 250 MB tables  
+
+
+## Roadmap and Ideas ##
+
+my plan is to add logging from different sources into a single data format  
+and provide consistent evaluation views for monitoring photovoltaic plant performance.  
+    
+With hindsight, maybe the import of flat csv tables might be much easier with SQL command  
+	LOAD DATA INFILE
+However, the not normalized minYYMMDD.csv files are not so easy to pull apart in SQL.
+
+
 ## Motivation
 
 In early days of photovoltaic, Solarlog(TM) was an excellent, lean, stable, relaible product

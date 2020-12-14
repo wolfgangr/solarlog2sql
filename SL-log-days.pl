@@ -9,7 +9,7 @@
 require "./db_cred_writer.pli" ; 
 
 # debug printing level 0...3
-my $debug=2 ;
+my $debug=0 ;
 
 
 die "usage: script.pl path file" if (scalar @ARGV != 2);
